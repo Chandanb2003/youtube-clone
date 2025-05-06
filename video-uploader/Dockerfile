@@ -1,20 +1,18 @@
-# Step 1: Start from a base image with Node.js installed
+# Use Node.js as base image
 FROM node:18
 
-# Step 2: Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Step 3: Copy the `package.json` and `package-lock.json` (if exists)
-COPY video-uploader/package*.json ./
-
-# Step 4: Install the npm dependencies
+# Copy package.json and install dependencies
+COPY package.json ./
 RUN npm install
 
-# Step 5: Copy the entire application (including `index.js` and others)
+# Copy the rest of the application (make sure index.js is in the same dir)
 COPY . .
 
-# Step 6: Expose the port your app will run on (this should match your app)
-EXPOSE 5000
+# Expose the port your app runs on
+EXPOSE 3000
 
-# Step 7: Define the command to run your app
+# Start the app
 CMD ["npm", "start"]
