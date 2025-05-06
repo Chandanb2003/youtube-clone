@@ -3,7 +3,7 @@ name: CI/CD for Video Processor
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-push:
