@@ -2,37 +2,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: video-processor
+  namespace: youtube
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: processor
+      app: video-processor
   template:
     metadata:
       labels:
-        app: processor
+        app: video-processor
     spec:
       containers:
-        - name: processor
-          image: your-dockerhub/video-processor:latest
+        - name: video-processor
+          image: chandan669/video-processor:latest
           ports:
-            - containerPort: 5000
-          volumeMounts:
-            - name: video-storage
-              mountPath: /app/uploads
-            - name: video-storage
-              mountPath: /app/processed
-      volumes:
-        - name: video-storage
-          emptyDir: {}
+            - containerPort: 5001
+          imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: processor-service
+  namespace: youtube
 spec:
   selector:
-    app: processor
+    app: video-processor
   ports:
-    - port: 80
-      targetPort: 5000
+    - protocol: TCP
+      port: 80
+      targetPort: 5001
