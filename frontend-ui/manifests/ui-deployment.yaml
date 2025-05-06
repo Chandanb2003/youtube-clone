@@ -2,29 +2,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-ui
+  namespace: youtube
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: frontend-ui
   template:
     metadata:
       labels:
-        app: frontend
+        app: frontend-ui
     spec:
       containers:
-        - name: ui
-          image: your-dockerhub/frontend-ui:latest
+        - name: frontend-ui
+          image: chandan669/frontend-ui:latest
           ports:
-            - containerPort: 80
+            - containerPort: 3000
+          imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-ui-service
+  namespace: youtube
 spec:
   selector:
-    app: frontend
+    app: frontend-ui
   ports:
-    - port: 80
-      targetPort: 80
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
