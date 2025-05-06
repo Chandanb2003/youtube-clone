@@ -5,7 +5,7 @@ FROM node:18
 WORKDIR /app
 
 # Step 3: Copy the `package.json` and `package-lock.json` (if exists)
-COPY package*.json ./
+COPY video-uploader/package*.json ./
 
 # Step 4: Install the npm dependencies
 RUN npm install
