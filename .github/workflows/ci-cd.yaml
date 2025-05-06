@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        service: [frontend, video-processor, video-uploader]
+        service: [frontend-ui, video-processor, video-uploader]
 
     steps:
       - name: Checkout code
