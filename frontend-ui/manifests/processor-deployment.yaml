@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-processor
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: processor
+  template:
+    metadata:
+      labels:
+        app: processor
+    spec:
+      containers:
+        - name: processor
+          image: your-dockerhub/video-processor:latest
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: video-storage
+              mountPath: /app/uploads
+            - name: video-storage
+              mountPath: /app/processed
+      volumes:
+        - name: video-storage
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: processor-service
+spec:
+  selector:
+    app: processor
+  ports:
+    - port: 80
+      targetPort: 5000
