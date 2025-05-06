@@ -12,9 +12,6 @@ jobs:
       matrix:
         service: [frontend, video-processor, video-uploader]
 
-    env:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -25,7 +22,7 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ env.DOCKERHUB_USERNAME }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build & Push image for ${{ matrix.service }}
@@ -34,5 +31,5 @@ jobs:
           context: ./${{ matrix.service }}
           push: true
           tags: |
-            ${{ env.DOCKERHUB_USERNAME }}/${{ matrix.service }}:latest
-            ${{ env.DOCKERHUB_USERNAME }}/${{ matrix.service }}:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ matrix.service }}:${{ github.sha }}
